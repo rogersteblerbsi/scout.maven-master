@@ -24,7 +24,7 @@
   <description>Maven Master Plugin Build Configuration - General</description>
 
   <properties>
-    <jdk.min.version>17</jdk.min.version>
+    <jdk.min.version>21</jdk.min.version>
     <jdk.source.version>11</jdk.source.version>
     <maven.compiler.source>${jdk.source.version}</maven.compiler.source>
     <maven.compiler.target>${jdk.source.version}</maven.compiler.target>
@@ -34,12 +34,17 @@
     <project.properties.encoding>UTF-8</project.properties.encoding>
     <maven.build.timestamp.format>yyyyMMdd-HHmmss</maven.build.timestamp.format>
     <maven.min.version>3.9.2</maven.min.version>
-    <maven.api.version>3.9.2</maven.api.version>
+    <maven.api.version>${maven.min.version}</maven.api.version>
 
     <master_deployAtEnd>true</master_deployAtEnd>
     <master_sanityCheck_skip>false</master_sanityCheck_skip>
     <master_signatureCheck_skip>${master_sanityCheck_skip}</master_signatureCheck_skip>
     <master_enforcerCheck_skip>${master_sanityCheck_skip}</master_enforcerCheck_skip>
+    <master_cyclonedx_skip>false</master_cyclonedx_skip>
+    <master_cyclonedx_version>1.5</master_cyclonedx_version>
+    <master_cyclonedx_projectType>library</master_cyclonedx_projectType>
+    <master_cyclonedx_excludeTestProject>true</master_cyclonedx_excludeTestProject>
+    <master_cyclonedx_outputFormat>json</master_cyclonedx_outputFormat>
 
     <!-- Test Control -->
     <master_unitTest_skip>false</master_unitTest_skip>
@@ -214,8 +219,8 @@
         </plugin>
 
         <plugin>
-          <groupId>pl.project13.maven</groupId>
-          <artifactId>git-commit-id-plugin</artifactId>
+          <groupId>io.github.git-commit-id</groupId>
+          <artifactId>git-commit-id-maven-plugin</artifactId>
           <executions>
             <execution>
               <id>default</id>
@@ -474,8 +479,8 @@
                 </pluginExecution>
                 <pluginExecution>
                   <pluginExecutionFilter>
-                    <groupId>pl.project13.maven</groupId>
-                    <artifactId>git-commit-id-plugin</artifactId>
+                    <groupId>io.github.git-commit-id</groupId>
+                    <artifactId>git-commit-id-maven-plugin</artifactId>
                     <versionRange>[${master_plugin_git-commit-id_version},)</versionRange>
                     <goals>
                       <goal>revision</goal>
@@ -502,10 +507,34 @@
             </lifecycleMappingMetadata>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.cyclonedx</groupId>
+          <artifactId>cyclonedx-maven-plugin</artifactId>
+          <configuration>
+            <projectType>${master_cyclonedx_projectType}</projectType>
+            <schemaVersion>${master_cyclonedx_version}</schemaVersion>
+            <excludeTestProject>${master_cyclonedx_excludeTestProject}</excludeTestProject>
+            <outputFormat>${master_cyclonedx_outputFormat}</outputFormat>
+            <skip>${master_cyclonedx_skip}</skip>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
 
     <plugins>
+
+      <plugin>
+        <groupId>org.cyclonedx</groupId>
+        <artifactId>cyclonedx-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>makeAggregateBom</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
