@@ -27,12 +27,12 @@
   <bannerLeft>
     <name>Eclipse Scout - Maven Master</name>
     <src>https://www.eclipse.org/downloads/images/scout.jpg</src>
-    <href>https://www.eclipse.org/scout/</href>
+    <href>https://eclipse.dev/scout/</href>
   </bannerLeft>
   <body>
     <links>
       <item name="Eclipse" href="https://www.eclipse.org/" />
-      <item name="Eclipse Scout" href="https://www.eclipse.org/scout/" />
+      <item name="Eclipse Scout" href="https://eclipse.dev/scout/" />
     </links>
     <menu name="Overview" inherit="top">
       <item name="Introduction" href="index.html" />
