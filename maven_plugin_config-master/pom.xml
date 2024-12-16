@@ -33,7 +33,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.properties.encoding>UTF-8</project.properties.encoding>
     <maven.build.timestamp.format>yyyyMMdd-HHmmss</maven.build.timestamp.format>
-    <maven.min.version>3.9.2</maven.min.version>
+    <maven.min.version>3.9.9</maven.min.version>
     <maven.api.version>${maven.min.version}</maven.api.version>
 
     <master_deployAtEnd>true</master_deployAtEnd>
